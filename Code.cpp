@@ -8,7 +8,12 @@
 #include <iomanip>
 #include <sqlite3.h>
 
-// Employee
+/*
+    Класс Employee представляет сотрудника с полями: fullName, birthDate, gender и age.
+    Конструктор инициализирует эти поля.
+    Методы getFullName, getBirthDate, getGender и getAge возвращают соответствующие поля.
+    Статический метод calculateAge вычисляет возраст на основе даты рождения.
+*/
 class Employee {
 public:
     Employee(const std::string& fullName, const std::string& birthDate, const std::string& gender, int age)
@@ -28,6 +33,12 @@ private:
     int age;
 };
 
+/*
+    Преобразует строку с датой рождения в структуру tm.
+    Преобразует tm в time_t.
+    Вычисляет разницу во времени между текущим временем и временем рождения.
+    Возвращает возраст в годах.
+*/
 int Employee::calculateAge(const std::string& birthDate) {
     std::tm tm = {};
     std::istringstream ss(birthDate);
@@ -39,7 +50,17 @@ int Employee::calculateAge(const std::string& birthDate) {
     return static_cast<int>(ageInSeconds / (365.25 * 24 * 60 * 60));
 }
 
-// Database
+/* 
+    Database
+    Конструктор открывает соединение с базой данных и бросает исключение в случае ошибки.
+    Деструктор закрывает соединение с базой данных.
+    createTable создает таблицу с полями: ID, FULLNAME, BIRTHDATE, GENDER и AGE.
+    insertEmployee добавляет запись сотрудника в базу данных.
+    getAllEmployees извлекает всех сотрудников из базы данных и возвращает их в виде вектора.
+    insertMultipleEmployees вставляет несколько записей сотрудников.
+    getEmployeesByCriteria извлекает сотрудников по заданным критериям.
+    callback преобразует строки результата запроса в объекты Employee.
+*/
 class Database {
 public:
     Database(const std::string& dbName) {
